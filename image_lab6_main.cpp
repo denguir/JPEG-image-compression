@@ -25,8 +25,6 @@ int main(int argc, char const *argv[]) {
   const char* RLEFile2 = "rle_encoding2.txt";
   const char* bitStream = "bitstream.txt";
 
-  string c = golomb(42);
-  std::cout << c << '\n';
   std::cout << golomb(istringstream(golomb(42)).seekg(0)) << "=" << 42 << '\n';
   std::cout << golomb(ifstream(golombFile).seekg(0)) << "=" << -1 << '\n';
 

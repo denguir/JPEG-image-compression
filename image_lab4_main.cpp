@@ -13,10 +13,12 @@
 int main(int argc, char const *argv[]) {
   const char* inFile = "lena_256x256.raw";
   const char* qFile = "quantize.raw";
+  const char* qBlockFile = "qblock.raw";
   const char* dctBlockFile = "dct_block.raw";
   const char* IqFile = "Iquantize.raw";
   const char* approxImgFile = "approxImg.raw";
   const char* diffFile = "difference.raw";
+  const char* gray8bppFile = "lena8bpp.raw";
 
   float* imageIn = load(inFile, 256);
   float* basis = DCTBasis(8);
@@ -33,6 +35,8 @@ int main(int argc, char const *argv[]) {
                    49, 64, 78, 87, 103, 121, 120, 101,
                    72, 92, 95, 98, 112, 100, 103, 99};
 
+  store(qBlock, 8, qBlockFile);
+
   float* qImage = quantize(coeffDct, 256, qBlock, 8);
   store(qImage, 256, qFile);
 
@@ -44,5 +48,9 @@ int main(int argc, char const *argv[]) {
 
   float* diffImg = difference(imageIn, approxImg, 256);
   store(diffImg, 256, diffFile);
+
+  char* image8bpp = grayscale8bpp(imageIn, 256);
+  store(image8bpp, 256, gray8bppFile);
+
   return 0;
 }

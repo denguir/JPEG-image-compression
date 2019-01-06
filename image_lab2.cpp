@@ -5,6 +5,7 @@
 #include <math.h>
 #include <fstream>
 #include <string>
+#include <iomanip>
 #include <random>
 #include "image_lab1.h"
 
@@ -59,7 +60,7 @@ float* gaussian_kernel(int size, float var) {
   for (int x=-k; x<=k; x++) {
     for (int y=-k; y<=k; y++) {
       kernel[(x+k)*size + (y+k)] = kernel[(x+k)*size + (y+k)]/sum;
-      std::cout << kernel[(x+k)*size + (y+k)] << '\t';
+      std::cout << std::setprecision(5) << kernel[(x+k)*size + (y+k)] << '\t';
     }
     std::cout << std::endl;
   }
@@ -108,10 +109,10 @@ float* blur2(float* image, int imageSize, float* kernel, int kernelSize) {
   return bluredImage;
 }
 
-float* sharpen(float* image, float* smoothImage, int size) {
+float* sharpen(float* image, float* smoothImage, int size, float alpha) {
   float* sharpImage = new float [size*size];
   for (int i=0; i<size*size; i++) {
-    sharpImage[i] = 2*image[i] - smoothImage[i];
+    sharpImage[i] = image[i] + alpha * (image[i] - smoothImage[i]);
   }
   return sharpImage;
 }

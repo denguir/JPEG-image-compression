@@ -87,7 +87,33 @@ float* approximate(float* image, int imageSize, float* qBlock, int blockSize) {
   return imgOut;
 }
 
+char* grayscale8bpp(float* image, int size) {
+  char* img8bpp = new char [size*size];
+  for (int i=0; i<size*size; i++) {
+    img8bpp[i] = (char) image[i];
+  }
+  return img8bpp;
+}
 
+
+float* encode(float* image, int imageSize, float* qBlock, int blockSize) {
+  float* DCTbasis = DCTBasis(blockSize);
+  float* DCTCoeff = blockTransform(image, imageSize, DCTbasis, blockSize);
+  delete[] DCTbasis;
+  float* qDCTCoeff = quantize(DCTCoeff, imageSize, qBlock, blockSize);
+  return qDCTCoeff;
+}
+
+float* decode(float* qCoeff, int imageSize, float* qBlock, int blockSize) {
+  float* DCTbasis = DCTBasis(blockSize);
+  float* IDCTbasis = transpose(DCTbasis, blockSize);
+  delete[] DCTbasis;
+  float* IqDCTCoeff = Iquantize(qCoeff, imageSize, qBlock, blockSize);
+  float* imgOut = blockTransform(IqDCTCoeff, imageSize, IDCTbasis, blockSize);
+  delete[] IDCTbasis;
+  delete[] IqDCTCoeff;
+  return imgOut;
+}
 
 float* difference(float* image1, float* image2, int size) {
   float* diffImg = new float [size*size];

@@ -20,6 +20,7 @@ int main(int argc, char const *argv[]) {
   const char* inFile = "lena_256x256.raw";
   const char* DCFile = "dc_lena.raw";
   const char* ACFile = "ac_lena.raw";
+  const char* downFile = "down_lena.raw";
   const char* blockFile = "block1.raw";
   const char* DCdecodedFile = "decoded_dc.raw";
   const char* qFile = "quantize.raw";
@@ -35,15 +36,19 @@ int main(int argc, char const *argv[]) {
   float* DC = DCImage(qDCTCoeff, 256, 8);
   store(DC, 32, DCFile);
 
+  // downsampled version of imageIn
+  float* downImg = downsample(imageIn, 256, 8);
+  store(downImg, 32, downFile);
+
   // Get block (x, y): useful for debuging
-  float* block1 = GetBlock(qDCTCoeff, 256, 8, 0, 31);
+  float* block1 = GetBlock(qDCTCoeff, 256, 8, 0, 0);
   store(block1, 8, blockFile);
 
   // energy and entropy before Delta encoding
   float energyDC = energy(DC, 32);
   std::cout << "energy DC (no Delta): \t" << energyDC << '\n';
   float H = entropy(DC, 32, 8); // bit = 8 because grayscale img
-  std::cout << "entropy (no Delta): \t" << H << '\n';
+  std::cout << "entropy DC (no Delta): \t" << H << '\n';
 
   // energy and entropy after Delta encoding
   DeltaEncoding(DC, 32, DeltaFile);
@@ -59,10 +64,12 @@ int main(int argc, char const *argv[]) {
 
   // Run Length encoding
   RunLengthEncoding(qDCTCoeff, 256, 8, RLEFile);
-  // Run Lengths Decoding
+
+  // Run Length Decoding
   float* AC = RunLengthDecoding(RLEFile, 256, 8);
   store(AC, 256, ACFile);
 
+  // merge DC and AC retrieved coefficients
   float* CoeffBack = merge(DC, AC, 256, 8);
   store(CoeffBack, 256, resFile);
 
