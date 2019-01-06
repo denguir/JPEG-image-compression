@@ -10,7 +10,7 @@
 #include "image_lab3.h"
 #include "image_lab4.h"
 
-int main(int argc, char const *argv[]) {
+int main() {
   const char* inFile = "lena_256x256.raw";
   const char* qFile = "quantize.raw";
   const char* qBlockFile = "qblock.raw";

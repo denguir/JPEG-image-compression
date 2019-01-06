@@ -6,6 +6,7 @@
 #include <sstream>
 #include <string>
 #include <random>
+#include <vector>
 #include "image_lab1.h"
 #include "image_lab2.h"
 #include "image_lab3.h"
@@ -13,6 +14,7 @@
 
 #define PI 3.14159265
 using namespace std;
+
 
 
 float* GetCoeffBlock(float* qImage, int imageSize, int blockSize, int x, int y) {
@@ -105,7 +107,9 @@ int* zigzag(int blockSize) {
   int sum;
   int check = blockSize - 1;
   int arraySize = 2*blockSize - 1;
-  int array[arraySize][blockSize] = {}; // array of indeces initialized to 0
+  std::vector<std::vector<int>> array;
+  array.resize(arraySize, std::vector<int>(blockSize, 0));
+  //int array[arraySize][blockSize] = {}; // array of indeces initialized to 0
   int* indeces = new int[blockSize*blockSize];
 
   // first build the 2D array of indeces
@@ -148,7 +152,9 @@ float* zigzag(float* block, int blockSize) {
   int sum;
   int check = blockSize - 1;
   int arraySize = 2*blockSize - 1;
-  int array[arraySize][blockSize] = {}; // array of indeces initialized to 0
+  std::vector<std::vector<int>> array;
+  array.resize(arraySize, std::vector<int>(blockSize, 0));
+  //int array[arraySize][blockSize] = {}; // array of indeces initialized to 0
   float* blockZ = new float[blockSize*blockSize];
 
   // first build the 2D array of indeces

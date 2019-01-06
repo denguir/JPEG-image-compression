@@ -12,7 +12,7 @@
 using namespace std;
 
 
-int main(int argc, char const *argv[]) {
+int main() {
   const char* dctFile = "dct.raw";
   const char* idctFile = "idct.raw";
   const char* identityFile = "identity.raw";

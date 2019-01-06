@@ -17,7 +17,7 @@
 using namespace std;
 
 
-int main(int argc, char const *argv[]) {
+int main() {
   const char* golombFile = "golomb.txt"; // for testing
   const char* DeltaFile = "delta_encoding.txt";
   const char* DeltaFile2 = "delta_encoding2.txt";

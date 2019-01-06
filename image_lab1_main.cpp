@@ -11,7 +11,7 @@
 
 using namespace std;
 
-main(int argc, char const *argv[]) {
+main() {
     const char* basicFile = "basic_img.raw";
     const char* rndUniFile = "rnd_uni.raw";
     const char* rndGaussFile1 = "rnd_gauss1.raw";

@@ -9,7 +9,7 @@
 
 using namespace std;
 
-int main(int argc, char const *argv[]) {
+int main() {
   const char* inFile = "lena_256x256.raw";
   const char* noiseFile = "lena_noise.raw";
   const char* noiseFile2 = "lena_noise2.raw";

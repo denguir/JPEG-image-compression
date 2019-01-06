@@ -15,7 +15,7 @@
 using namespace std;
 
 
-int main(int argc, char const *argv[]) {
+int main() {
   // .raw
   const char* inFile = "lena_256x256.raw";
   const char* DCFile = "dc_lena.raw";
