@@ -40,7 +40,7 @@ string golomb(int value) {
   string s;
   bool next_bit;
   unsigned int v = map(value) + 1;
-  unsigned int length = floor(log2(v));
+  int length = floor(log2(v));
   for (int i=0; i<length; i++) {
     s += "0";
   }

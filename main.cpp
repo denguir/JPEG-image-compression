@@ -34,7 +34,7 @@ float compress_ratio(int imgSize, int bit, const char* filename) {
   return ratio;
 }
 
-int main(int argc, char const *argv[]) {
+int main() {
   const char* inFile = "lena_256x256.raw";
   const char* outFile = "lena_out.raw";
   const char* bitStream = "bitstream.txt";

@@ -100,13 +100,13 @@ float* DeltaDecoding(const char* filename, int DCsize) {
   return DC;
 }
 
-unsigned int* zigzag(int blockSize) {
+int* zigzag(int blockSize) {
   // return an index array to follow that parses a block following a zigzag pattern
   int sum;
   int check = blockSize - 1;
   int arraySize = 2*blockSize - 1;
   int array[arraySize][blockSize] = {}; // array of indeces initialized to 0
-  unsigned int* indeces = new unsigned int[blockSize*blockSize];
+  int* indeces = new int[blockSize*blockSize];
 
   // first build the 2D array of indeces
   for (int i=0; i<blockSize; i++) {
@@ -126,7 +126,7 @@ unsigned int* zigzag(int blockSize) {
     }
   }
   // Now build the 1D array of indeces
-  unsigned int idx;
+  int idx;
   int k = 1;
   indeces[0] = 0;
   indeces[blockSize*blockSize-1] = blockSize*blockSize-1;
@@ -241,7 +241,7 @@ void RunLengthEncoding(float* coeff, int size, int blockSize, const char* filena
   delete[] block;
 }
 
-float* BlockRLD(istream &is, int blockSize, unsigned int* indexZ) {
+float* BlockRLD(istream &is, int blockSize, int* indexZ) {
   float* blockACZ = new float[blockSize*blockSize];
   float* blockAC = new float[blockSize*blockSize];
   blockACZ[0] = 0; // DC coeff not attributed
@@ -265,7 +265,7 @@ float* RunLengthDecoding(const char* filename, int size, int blockSize) {
   ifstream in(filename);
   float* blockAC = new float[blockSize*blockSize];
   float* AC = new float[size*size]();
-  unsigned int* indexZ = zigzag(blockSize);
+  int* indexZ = zigzag(blockSize);
   string blockSeq;
   int decodedSeq;
   int blockCounter;
@@ -370,20 +370,8 @@ float energy(float* image, int size) {
   return E;
 }
 
-int mapIndex(int value) {
-  // maps negative and positive values into positive values
-  // useful for keeping positive indeces
-  int mapped;
-  if (value > 0) {
-    mapped = 2*value - 1;
-  } else {
-    mapped = 2*abs(value);
-  }
-  return mapped;
-}
-
 int* histogram(float* image, int size, int bit) {
-  int sizeHist = pow(2, bit);
+  int sizeHist = pow(2, bit+1); // bit+1, to deal with negatives
   int* hist = new int[sizeHist](); // initialize to zero
   int value;
   for (int i=0; i<size*size; i++) {
@@ -398,7 +386,7 @@ int* histogram(float* image, int size, int bit) {
 
 float entropy(float* image, int size, int bit) {
   int* hist = histogram(image, size, bit);
-  int sizeHist = pow(2, bit);
+  int sizeHist = pow(2, bit+1);
   float H = 0;
   float pi;
   for (int i=0; i<sizeHist; i++) {
@@ -409,4 +397,15 @@ float entropy(float* image, int size, int bit) {
   }
   delete[] hist;
   return H;
+}
+
+float* downsample(float* image, int size, int downFactor) {
+  int downSize = size/downFactor;
+  float* downImage = new float [downSize*downSize];
+  for (int i=0; i<downSize; i++) {
+    for (int j=0; j<downSize; j++) {
+      downImage[i*downSize +j] = image[(downFactor*i)*size + downFactor*j];
+    }
+  }
+  return downImage;
 }

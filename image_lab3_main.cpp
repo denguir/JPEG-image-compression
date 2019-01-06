@@ -14,23 +14,28 @@ using namespace std;
 
 int main(int argc, char const *argv[]) {
   const char* dctFile = "dct.raw";
+  const char* idctFile = "idct.raw";
   const char* identityFile = "identity.raw";
+  const char* dctLenaFile = "dct_lena.raw";
   const char* coeffFile = "coeff.raw";
   const char* inFile = "lena_256x256.raw";
   const char* compressedFile = "compressed.raw";
 
-  int thValue= 20; // threshold
+  int thValue = 100; // threshold
 
   float* basis = DCTBasis(256);
   store(basis, 256, dctFile);
 
   float* basisT = transpose(basis, 256);
+  store(basisT, 256, idctFile);
+
   float* identity = matmul(basis, basisT, 256);
   store(identity, 256, identityFile);
 
   float* imageIn = load(inFile, 256);
   float* coeff = transform(imageIn, basis, 256);
-  
+  store(coeff, 256, dctLenaFile);
+
   float* coeffCompressed = threshold(coeff, 256, thValue);
   store(coeffCompressed, 256, coeffFile);
 
