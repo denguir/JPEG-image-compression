@@ -19,8 +19,8 @@ The bitStream can then be decompressed and decoded to retrieve the original imag
 5- Apply Blockwise inverse DCT  
 --> output: lena_out.raw  
   
-To run the code, type:  
+To compile the code, type:  
 g++ main.cpp image_lab6.cpp image_lab5.cpp image_lab4.cpp image_lab3.cpp image_lab2.cpp image_lab1.cpp -std=gnu++11 -o image  
 
-You can also visualize intermediate results by running the appropriate main. For example, to run image_lab3_main.cpp, type:  
+You can also visualize intermediate results by running the appropriate main. For example, to compile image_lab3_main.cpp, type:  
 g++ image_lab3_main.cpp image_lab3.cpp image_lab2.cpp image_lab1.cpp -std=gnu++11 -o image3  
